@@ -1,7 +1,7 @@
 import inquirer from "inquirer";
-import columnOne from "./column/columnOne.js";
+import columns from "./column/columns.js";
 
-const columns = ["all", "specific"];
+const column = ["all", "specific"];
 
 function tableOne() {
     inquirer
@@ -15,11 +15,11 @@ function tableOne() {
                 type: "rawlist",
                 name: "column",
                 message: "Select all columns or specific columns?",
-                choices: columns,
+                choices: column,
             },
         ])
         .then((columnAnswer) => {
-            columnOne(columnAnswer);
+            columns(columnAnswer);
         });
 }
 

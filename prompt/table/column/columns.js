@@ -1,6 +1,6 @@
 import inquirer from "inquirer";
 
-function columnOne(columnAnswer) {
+function columns(columnAnswer) {
     if (columnAnswer.column === "all") {
         console.log(`SELECT * FROM ${columnAnswer.table1}`);
     } else if (columnAnswer.column === "specific") {
@@ -9,13 +9,19 @@ function columnOne(columnAnswer) {
                 {
                     type: "number",
                     name: "number_of_columns",
-                    message: "How many columns do you want to select?",
+                    message: "How many columns do you want to select? (Max 10)",
                 },
             ])
             .then((numberColumnAnswer) => {
+                const maxColumns = 10;
                 const columnPrompts = [];
 
-                for (let i = 0; i < numberColumnAnswer.number_of_columns; i++) {
+                const numColumns = Math.min(
+                    numberColumnAnswer.number_of_columns,
+                    maxColumns
+                );
+
+                for (let i = 0; i < numColumns; i++) {
                     columnPrompts.push({
                         type: "input",
                         name: `column${i + 1}`,
@@ -25,8 +31,7 @@ function columnOne(columnAnswer) {
 
                 inquirer.prompt(columnPrompts).then((columnsAnswer) => {
                     const selectedColumns = Object.values(columnsAnswer).filter(
-                        (value) => value !== ""
-                    );
+                        (value) => value !== "");
 
                     console.log(
                         `SELECT ${selectedColumns.join(", ")} FROM ${columnAnswer.table1};`
@@ -36,4 +41,4 @@ function columnOne(columnAnswer) {
     }
 }
 
-export default columnOne;
+export default columns;
