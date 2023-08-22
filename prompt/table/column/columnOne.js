@@ -13,19 +13,25 @@ function columnOne(columnAnswer) {
                 },
             ])
             .then((numberColumnAnswer) => {
-                if (numberColumnAnswer.number_of_columns === 1) {
-                    inquirer
-                        .prompt([
-                            {
-                                type: "input",
-                                name: "column1",
-                                message: "First column name: ",
-                            },
-                        ])
-                        .then((column1Answer) => {
-                            console.log(`SELECT ${column1Answer.column1} FROM ${columnAnswer.table1}`);
-                        });
+                const columnPrompts = [];
+
+                for (let i = 0; i < numberColumnAnswer.number_of_columns; i++) {
+                    columnPrompts.push({
+                        type: "input",
+                        name: `column${i + 1}`,
+                        message: `Column ${i + 1} name: `,
+                    });
                 }
+
+                inquirer.prompt(columnPrompts).then((columnsAnswer) => {
+                    const selectedColumns = Object.values(columnsAnswer).filter(
+                        (value) => value !== ""
+                    );
+
+                    console.log(
+                        `SELECT ${selectedColumns.join(", ")} FROM ${columnAnswer.table1};`
+                    );
+                });
             });
     }
 }

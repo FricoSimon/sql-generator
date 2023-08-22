@@ -14,7 +14,14 @@ function selectSQL() {
             },
         ])
         .then((tableAnswer) => {
-            tableOne();
+            if (tableAnswer.select_table === 1) {
+                tableOne();
+            }
+            else if (tableAnswer.select_table === 2) {
+
+            } else if (tableAnswer.select_table === 3) {
+
+            }
         });
 }
 
